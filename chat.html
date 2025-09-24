@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat App</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f8f9fa;
+    }
+    .chat-box {
+      height: 70vh;
+      overflow-y: auto;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #dee2e6;
+    }
+    .message {
+      margin-bottom: 15px;
+    }
+    .message .msg-text {
+      padding: 10px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      max-width: 70%;
+    }
+    .message.sent .msg-text {
+      background: #0d6efd;
+      color: white;
+      float: right;
+    }
+    .message.received .msg-text {
+      background: #e9ecef;
+      color: black;
+      float: left;
+    }
+    .chat-input {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <h3 class="text-center mb-4">💬 Chat App</h3>
+    <div id="chat-box" class="chat-box"></div>
+    <form id="chat-form" class="chat-input d-flex">
+      <input type="text" id="message-input" class="form-control me-2" placeholder="Type a message...">
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Example JS (replace with WebSocket logic later)
+    const chatBox = document.getElementById("chat-box");
+    const chatForm = document.getElementById("chat-form");
+    const messageInput = document.getElementById("message-input");
+
+    chatForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const message = messageInput.value.trim();
+      if (message) {
+        appendMessage("sent", message);
+        // TODO: send to WebSocket server here
+        messageInput.value = "";
+      }
+    });
+
+    function appendMessage(type, text) {
+      const messageDiv = document.createElement("div");
+      messageDiv.classList.add("message", type);
+      messageDiv.innerHTML = `<div class="msg-text">${text}</div><div style="clear: both;"></div>`;
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Example incoming message
+    setTimeout(() => appendMessage("received", "Hello! This is a test message."), 2000);
+  </script>
+</body>
+</html>
