@@ -31,7 +31,7 @@ SECRET_KEY =  os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1"]
 
 
 # Application definition
@@ -46,7 +46,12 @@ INSTALLED_APPS = [
     #Custom apps
     'chat',
     'index',
-    'user',
+    'accounts',
+
+    #packages
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "channels",
 ]
 
 MIDDLEWARE = [
@@ -130,3 +135,23 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/'   # after login redirect
+LOGOUT_REDIRECT_URL = '/accounts/login/'   # after logout
+
+# Crispy config
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+#channels
+ASGI_APPLICATION = "django_chat_classifier.asgi.application"
+
+# Channels layer config using RabbitMQ
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
+        "CONFIG": {
+            "host": f"amqp://guest:guest@{os.getenv('RABBITMQ_HOST', 'localhost')}:{os.getenv('RABBITMQ_PORT', '5672')}/",
+        },
+    },
+}

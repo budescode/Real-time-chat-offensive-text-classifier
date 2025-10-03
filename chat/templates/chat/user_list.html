@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<h3>All Users</h3>
+
+<form method="get">
+  <input type="text" name="q" placeholder="Search users..." value="{{ request.GET.q }}">
+  <button type="submit" class="btn btn-sm btn-primary">Search</button>
+</form>
+
+<ul class="list-group mt-3">
+  {% for user in users %}
+    {% if user != request.user %}
+      <li class="list-group-item">
+        <a href="{% url 'private_chat' user.username %}">{{ user.username }}</a>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}
